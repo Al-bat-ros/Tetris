@@ -29,7 +29,7 @@ for (let y=18; y>0; y--){
 	}
 }
 
-let x = 5, y = 10
+let x = 5, y = 15
 
 let mainArr = [
   // палка
@@ -104,6 +104,52 @@ let figureBody = 0;
 		 figureBody[i].classList.add('figure');
 	}	
  }
-
+ 
  create(); 
+
+ function move() {
+     let moveFlag = true;
+     let coordinates = [
+         [figureBody[0].getAttribute('posX'), figureBody[0].getAttribute('posY')],
+         [figureBody[1].getAttribute('posX'), figureBody[1].getAttribute('posY')],
+         [figureBody[2].getAttribute('posX'), figureBody[2].getAttribute('posY')],
+         [figureBody[3].getAttribute('posX'), figureBody[3].getAttribute('posY')]
+
+     ];
+     for (let i = 0; i < coordinates.length; i++) {
+         if (coordinates[i][1] == 1 || document.querySelector(`[posX = "${coordinates[i][0]}"][posY = "${coordinates[i][1] - 1}"]`).classList.contains('set')) {
+             moveFlag = false;
+             break;
+         }
+     }
+
+     if (moveFlag) {
+         for (let i = 0; i < figureBody.length; i++) {
+             figureBody[i].classList.remove('figure');
+         }
+         figureBody = [
+             document.querySelector(`[posX = "${coordinates[0][0]}"][posY = "${coordinates[0][1] - 1}"]`),
+             document.querySelector(`[posX = "${coordinates[1][0]}"][posY = "${coordinates[1][1] - 1}"]`),
+             document.querySelector(`[posX = "${coordinates[2][0]}"][posY = "${coordinates[2][1] - 1}"]`),
+             document.querySelector(`[posX = "${coordinates[3][0]}"][posY = "${coordinates[3][1] - 1}"]`)
+         ];
+         for (let i = 0; i < figureBody.length; i++) {
+             figureBody[i].classList.add('figure');
+
+         }
+     } else {
+         for (let i = 0; i < figureBody.length; i++) {
+             figureBody[i].classList.remove('figure');
+             figureBody[i].classList.add('set');
+
+         }
+         create();
+     }
+ }
+
+
+ let interval = setInterval(move, 300);
+
+
+
 
